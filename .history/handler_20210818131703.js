@@ -24,14 +24,16 @@ module.exports.createPost = async (event, context, callback ) => {
     body: reqBody.body
   };
 
-  return db
-    .put({
-      TableName: postsTable,
-      Item: post
-    })
-    .promise()
-    .then(() => {
-      callback(null, response(201, post));
-    })
-    .catch((err) => response(null, response(err.statusCode, err)));
+  return db.put({
+    TableName: postsTable,
+    Item: post
+  }).promise().then(
+    () => {
+      callback(null, response(201, post))
+    }
+  ).catch(
+    err => response(null, response(err.statusCode, err))
+  )
+
+
 };

@@ -138,13 +138,13 @@
                   "Effect": "Allow",
                   "Action": [
                     "dynamodb:DescribeTable",
-                    "dynamodb:scan",
+                    "dynamodb:Scan",
                     "dynamodb:GetItem",
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",
                     "dynamodb:DeleteItem"
                   ],
-                  "Resource": "arn:aws:dynamodb:us-west-2:*:table/posts"
+                  "Resource": "arn:aws:dynamodb:us-east-2:*:table/posts"
                 }
               ]
             }
@@ -173,16 +173,16 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/sls/dev/1629240777605-2021-08-17T22:52:57.605Z/sls.zip"
+          "S3Key": "serverless/sls/dev/1629289074731-2021-08-18T12:17:54.731Z/sls.zip"
         },
-        "Handler": "handler.hello",
-        "Runtime": "nodejs12.x",
+        "Handler": "handler.createPost",
+        "Runtime": "nodejs14.x",
         "FunctionName": "sls-dev-createPost",
         "MemorySize": 1024,
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "POST_TABLE": "posts"
+            "POSTS_TABLE": "posts"
           }
         },
         "Role": {
@@ -196,14 +196,14 @@
         "CreatePostLogGroup"
       ]
     },
-    "CreatePostLambdaVersionCKinS3mNHn0SCHtMQRjC8GjT6bNY1iSVtaPmptEAkA": {
+    "CreatePostLambdaVersionTahde75RzOeLQhX9BWU5nf1QXq1TeMUf6YM3VKiOxs": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreatePostLambdaFunction"
         },
-        "CodeSha256": "q4n0+ezqjXT+Ta6tgtBP4LXx0ZKxgGpbd2F1OVKYn4w="
+        "CodeSha256": "repwOc7NjZZiRvBkZ4EoaRmYyFn1+n0Izvw26Wu78sU="
       }
     },
     "ApiGatewayRestApi": {
@@ -279,7 +279,7 @@
         "CreatePostLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1629240762046": {
+    "ApiGatewayDeployment1629289068660": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -328,10 +328,10 @@
         }
       }
     },
-    "PostTable": {
+    "PostsTable": {
       "Type": "AWS::DynamoDB::Table",
       "Properties": {
-        "AttributeDefinitioins": [
+        "AttributeDefinitions": [
           {
             "AttributeName": "id",
             "AttributeType": "S"
@@ -345,8 +345,9 @@
         ],
         "ProvisionedThroughput": {
           "ReadCapacityUnits": 1,
-          "WriteCapacittyUnits": 1
-        }
+          "WriteCapacityUnits": 1
+        },
+        "TableName": "posts"
       }
     }
   },
@@ -362,7 +363,7 @@
     "CreatePostLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreatePostLambdaVersionCKinS3mNHn0SCHtMQRjC8GjT6bNY1iSVtaPmptEAkA"
+        "Ref": "CreatePostLambdaVersionTahde75RzOeLQhX9BWU5nf1QXq1TeMUf6YM3VKiOxs"
       },
       "Export": {
         "Name": "sls-sls-dev-CreatePostLambdaFunctionQualifiedArn"
